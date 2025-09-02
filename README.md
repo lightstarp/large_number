@@ -16,5 +16,18 @@ wikipediaのハイパーE表記に関する記述
 ## Warning
 このライブラリは未完成のため大幅に変更される場合があります。
 
+## Usage
+足し算をするサンプルコードです。
+```
+use HLarge;
+
+fn foo() {
+    let x = HLarge::new(1729);
+    let y = HLarge::new(1111);
+
+    println!("{}", x + y) // 2840
+}
+```
+
 ## Licence
 MIT (https://github.com/lightstarp/large_number/blob/master/LICENSE)
