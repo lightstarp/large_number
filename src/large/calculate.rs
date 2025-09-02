@@ -1,4 +1,4 @@
-use super::{HLarge, Sign, fix::fix};
+use super::{LargeNum, Sign, fix::fix};
 
 //  #[inline]
 //  fn calm1(l: f32, r: f32) -> f32 {
@@ -54,32 +54,32 @@ fn cal(l: (f32, i16), r: (f32, i16)) -> (f32, i16) {
     fix(o)
 }
 
-impl std::ops::Add for HLarge {
+impl std::ops::Add for LargeNum {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self {
         let x = cal((self.entry0, self.entry1), (rhs.entry0, rhs.entry1));
-        HLarge { entry0: x.0, entry1: x.1, sign: Sign::Plus }
+        LargeNum { entry0: x.0, entry1: x.1, sign: Sign::Plus }
     }
 }
 
-impl std::ops::Mul for HLarge {
+impl std::ops::Mul for LargeNum {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self {
-        if self == HLarge::new(0) { return HLarge::new(0) }
-        if rhs  == HLarge::new(0) { return HLarge::new(0) }
+        if self == LargeNum::new(0) { return LargeNum::new(0) }
+        if rhs  == LargeNum::new(0) { return LargeNum::new(0) }
         let x = cal((self.entry0, self.entry1 - 1), (rhs.entry0, rhs.entry1 - 1));
-        HLarge { entry0: x.0, entry1: x.1 + 1, sign: Sign::Plus }
+        LargeNum { entry0: x.0, entry1: x.1 + 1, sign: Sign::Plus }
     }
 }
 
-impl HLarge {
+impl LargeNum {
     pub fn pow(self, rhs: Self) -> Self {
-        if self == HLarge::new(1) { return HLarge::new(1) }
-        if self == HLarge::new(0) { return HLarge::new(0) }
-        if rhs  == HLarge::new(0) { return HLarge::new(1) }
+        if self == LargeNum::new(1) { return LargeNum::new(1) }
+        if self == LargeNum::new(0) { return LargeNum::new(0) }
+        if rhs  == LargeNum::new(0) { return LargeNum::new(1) }
         let x = cal((self.entry0, self.entry1 - 2), (rhs.entry0, rhs.entry1 - 1));
-        HLarge { entry0: x.0, entry1: x.1 + 2, sign: Sign::Plus }
+        LargeNum { entry0: x.0, entry1: x.1 + 2, sign: Sign::Plus }
     }
 }

@@ -16,11 +16,11 @@ wikipediaのハイパーE表記に関する記述
 ## Usage
 足し算をするサンプルコードです。
 ```rust
-use HLarge;
+use LargeNum;
 
 fn foo() {
-    let x = HLarge::new(1729);
-    let y = HLarge::new(1111);
+    let x = LargeNum::new(1729);
+    let y = LargeNum::new(1111);
 
     println!("{}", x + y) // 2840
 }
@@ -28,14 +28,16 @@ fn foo() {
 
 ## Features
 現在対応している演算
-| Name       | Program   |
-| :--------- | :-------- |
-| add        | a + b     |
-| multiple   | a * b     |
-| power      | a.pow(b)  |
+| 対応済みかどうか | 名前 | プログラム |
+| :-- | :---------- | :-------- |
+| [x] | add         | a + b     |
+| [x] | multiple    | a * b     |
+| [x] | power       | a.pow(b)  |
+| [ ] | subtraction | a - b     |
+| [ ] | division    | a / b     |
 
 ## Warning
-このライブラリは未完成のため大幅に変更される場合があります。
+このライブラリは未完成のため大幅な互換性のない変更される場合があります。
 
 ## Licence
 MIT (https://github.com/lightstarp/large_number/blob/master/LICENSE)
