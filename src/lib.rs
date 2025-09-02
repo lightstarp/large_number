@@ -1,2 +1,2 @@
 mod large;
-pub use large::LargeNum;
+pub use large::Lnum;

@@ -15,11 +15,11 @@ Sbiis Saibianが考案した巨大数を表記する方法であるハイパーE
 ## Usage
 足し算をするサンプルコードです。
 ```rust
-use LargeNum;
+use Lnum;
 
 fn foo() {
-    let x = LargeNum::new(1729);
-    let y = LargeNum::new(1111);
+    let x = Lnum::new(1729);
+    let y = Lnum::new(1111);
 
     println!("{}", x + y) // 2840
 }

@@ -1,30 +1,30 @@
-use super::{LargeNum, Sign, fix::fix};
+use super::{Lnum, Sign, fix::fix};
 
-pub trait Value { fn f(self) -> Option<LargeNum>; }
+pub trait Value { fn f(self) -> Option<Lnum>; }
 impl Value for f32 {
-    fn f(self) -> Option<LargeNum> {
+    fn f(self) -> Option<Lnum> {
         let x = fix((self, 0));
-        Some(LargeNum { entry0: x.0, entry1: x.1, sign: Sign::Plus })
+        Some(Lnum { entry0: x.0, entry1: x.1, sign: Sign::Plus })
     }
 }
 impl Value for i32 {
-    fn f(self) -> Option<LargeNum> {
+    fn f(self) -> Option<Lnum> {
         let x = fix((self as f32, 0));
-        Some(LargeNum { entry0: x.0, entry1: x.1, sign: Sign::Plus })
+        Some(Lnum { entry0: x.0, entry1: x.1, sign: Sign::Plus })
     }
 }
 impl Value for &str {
-    fn f(self) -> Option<LargeNum> {
+    fn f(self) -> Option<Lnum> {
         lexer(self)
     }
 }
 impl Value for String {
-    fn f(self) -> Option<LargeNum> {
+    fn f(self) -> Option<Lnum> {
         lexer(&self)
     }
 }
 
-fn lexer(s: &str) -> Option<LargeNum> {
+fn lexer(s: &str) -> Option<Lnum> {
     // 先頭に「-」がついてた場合、符号を負にして以降の文字を取得。無ければそのまま取得。
     let (s, sign) = match s.chars().next() {
         Some('-') => (s.get(1..).unwrap_or(""), Sign::Minus),
@@ -47,15 +47,15 @@ fn lexer(s: &str) -> Option<LargeNum> {
 
     // 正規化する。
     let (entry0, entry1) = fix((entry0, entry1 * count_e as i16));
-    Some(LargeNum { entry0, entry1, sign })
+    Some(Lnum { entry0, entry1, sign })
 }
 
-impl LargeNum {
-    pub fn new<V: Value>( v: V ) -> LargeNum {
+impl Lnum {
+    pub fn new<V: Value>( v: V ) -> Lnum {
         v.f().unwrap()
     }
 
-    pub fn new_checked<V: Value>( v: V ) -> Option<LargeNum> {
+    pub fn new_checked<V: Value>( v: V ) -> Option<Lnum> {
         v.f()
     }
 }

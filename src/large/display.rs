@@ -1,6 +1,6 @@
-use super::LargeNum;
+use super::Lnum;
 
-impl std::fmt::Display for LargeNum {
+impl std::fmt::Display for Lnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut s = String::new();
         match self.entry1 {

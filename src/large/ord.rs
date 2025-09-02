@@ -1,22 +1,22 @@
-use super::{LargeNum, Sign};
+use super::{Lnum, Sign};
 use std::cmp::Ordering;
 
-impl PartialEq for LargeNum {
+impl PartialEq for Lnum {
     fn eq(&self, rhs: &Self) -> bool {
         (self.entry1 == rhs.entry1 && self.entry0 == rhs.entry0)
         && 
         ((self.entry1 == -2 && self.entry0 == 10.0) || self.sign == rhs.sign)
     }
 }
-impl Eq for LargeNum {}
+impl Eq for Lnum {}
 
-impl PartialOrd for LargeNum {
+impl PartialOrd for Lnum {
     fn partial_cmp(&self, rhs: &Self) -> Option<Ordering> {
         Some(self.cmp(rhs))
     }
 }
 
-impl Ord for LargeNum {
+impl Ord for Lnum {
     fn cmp(&self, rhs: &Self) -> Ordering {
         let x = match (self.sign, rhs.sign) {
             (Sign::Plus , Sign::Plus ) => false,
