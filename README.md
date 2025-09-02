@@ -13,12 +13,9 @@ Sbiis Saibianが考案した巨大数を表記する方法であるハイパーE
 wikipediaのハイパーE表記に関する記述
 (https://ja.wikipedia.org/wiki/%E3%83%8F%E3%82%A4%E3%83%91%E3%83%BCE%E8%A1%A8%E8%A8%98)
 
-## Warning
-このライブラリは未完成のため大幅に変更される場合があります。
-
 ## Usage
 足し算をするサンプルコードです。
-```
+```rust
 use HLarge;
 
 fn foo() {
@@ -28,6 +25,17 @@ fn foo() {
     println!("{}", x + y) // 2840
 }
 ```
+
+## Features
+現在対応している演算
+| Name       | Program   |
+| :--------- | :-------- |
+| add        | a + b     |
+| multiple   | a * b     |
+| power      | a.pow(b)  |
+
+## Warning
+このライブラリは未完成のため大幅に変更される場合があります。
 
 ## Licence
 MIT (https://github.com/lightstarp/large_number/blob/master/LICENSE)
