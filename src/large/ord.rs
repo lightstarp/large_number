@@ -5,7 +5,7 @@ impl PartialEq for HLarge {
     fn eq(&self, rhs: &Self) -> bool {
         (self.entry1 == rhs.entry1 && self.entry0 == rhs.entry0)
         && 
-        ((self.entry1 == -2 && self.entry0 == 10.0) || self.s == rhs.s)
+        ((self.entry1 == -2 && self.entry0 == 10.0) || self.sign == rhs.sign)
     }
 }
 impl Eq for HLarge {}
@@ -18,7 +18,7 @@ impl PartialOrd for HLarge {
 
 impl Ord for HLarge {
     fn cmp(&self, rhs: &Self) -> Ordering {
-        let x = match (self.s, rhs.s) {
+        let x = match (self.sign, rhs.sign) {
             (Sign::Plus , Sign::Plus ) => false,
             (Sign::Minus, Sign::Plus ) => return Ordering::Greater,
             (Sign::Plus , Sign::Minus) => return Ordering::Less,

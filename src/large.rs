@@ -14,7 +14,7 @@ enum Sign {
 pub struct HLarge {
     entry0: f32,
     entry1: i16,
-    s: Sign,
+    sign: Sign,
 }
 
 #[test]

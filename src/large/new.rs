@@ -4,13 +4,13 @@ pub trait Value { fn f(self) -> Option<HLarge>; }
 impl Value for f32 {
     fn f(self) -> Option<HLarge> {
         let x = fix((self, 0));
-        Some(HLarge { entry0: x.0, entry1: x.1, s: Sign::Plus })
+        Some(HLarge { entry0: x.0, entry1: x.1, sign: Sign::Plus })
     }
 }
 impl Value for i32 {
     fn f(self) -> Option<HLarge> {
         let x = fix((self as f32, 0));
-        Some(HLarge { entry0: x.0, entry1: x.1, s: Sign::Plus })
+        Some(HLarge { entry0: x.0, entry1: x.1, sign: Sign::Plus })
     }
 }
 impl Value for &str {
@@ -47,7 +47,7 @@ fn lexer(s: &str) -> Option<HLarge> {
 
     // 正規化する。
     let (entry0, entry1) = fix((entry0, entry1 * count_e as i16));
-    Some(HLarge { entry0, entry1, s: sign })
+    Some(HLarge { entry0, entry1, sign })
 }
 
 impl HLarge {

@@ -53,7 +53,7 @@ impl std::ops::Add for HLarge {
 
     fn add(self, rhs: Self) -> Self {
         let x = cal((self.entry0, self.entry1), (rhs.entry0, rhs.entry1));
-        HLarge { entry0: x.0, entry1: x.1, s: Sign::Plus }
+        HLarge { entry0: x.0, entry1: x.1, sign: Sign::Plus }
     }
 }
 
@@ -64,7 +64,7 @@ impl std::ops::Mul for HLarge {
         if self == HLarge::new(0) { return HLarge::new(0) }
         if rhs  == HLarge::new(0) { return HLarge::new(0) }
         let x = cal((self.entry0, self.entry1 - 1), (rhs.entry0, rhs.entry1 - 1));
-        HLarge { entry0: x.0, entry1: x.1 + 1, s: Sign::Plus }
+        HLarge { entry0: x.0, entry1: x.1 + 1, sign: Sign::Plus }
     }
 }
 
@@ -74,6 +74,6 @@ impl HLarge {
         if self == HLarge::new(0) { return HLarge::new(0) }
         if rhs  == HLarge::new(0) { return HLarge::new(1) }
         let x = cal((self.entry0, self.entry1 - 2), (rhs.entry0, rhs.entry1 - 1));
-        HLarge { entry0: x.0, entry1: x.1 + 2, s: Sign::Plus }
+        HLarge { entry0: x.0, entry1: x.1 + 2, sign: Sign::Plus }
     }
 }
