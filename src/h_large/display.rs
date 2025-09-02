@@ -10,9 +10,9 @@ impl std::fmt::Display for HLarge {
                 for _ in 0..self.entry1 {
                     s.push('E')
                 }
-                s.push_str(&format!("{:.1}", self.entry0));
+                s.push_str(&format!("{:.2}", self.entry0));
             }
-            _    => { s = format!("E{:05.1}#{}", self.entry0, self.entry1) }
+            _    => { s = format!("E{:08.1}#{}", self.entry0, self.entry1) }
         };
 
         
