@@ -29,12 +29,12 @@ fn foo() {
 ## Features
 現在対応している演算
 | 対応済みかどうか | 名前 | プログラム |
-| :-- | :---------- | :-------- |
-| [x] | add         | a + b     |
-| [x] | multiple    | a * b     |
-| [x] | power       | a.pow(b)  |
-| [ ] | subtraction | a - b     |
-| [ ] | division    | a / b     |
+| :---- | :---------- | :-------- |
+| - [x] | add         | a + b     |
+| - [x] | multiple    | a * b     |
+| - [x] | power       | a.pow(b)  |
+| - [ ] | subtraction | a - b     |
+| - [ ] | division    | a / b     |
 
 ## Warning
 このライブラリは未完成のため大幅な互換性のない変更される場合があります。
