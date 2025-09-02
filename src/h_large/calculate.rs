@@ -1,9 +1,15 @@
 use super::{HLarge, Sign, fix::fix};
 
-#[inline]
-fn calm1(l: f32, r: f32) -> f32 {
-    l + r
-}
+//  #[inline]
+//  fn calm1(l: f32, r: f32) -> f32 {
+//      match l - r {
+//          -3.0..0.0 => (10_f32.powf(10_f32.powf(l - r)) + 1.0).log10().log10() + r,
+//          0.0..3.0  => (10_f32.powf(10_f32.powf(r - l)) + 1.0).log10().log10() + l,
+//          ..0.0      => r,
+//          0.0..      => l,
+//          _          => unreachable!(),
+//      }
+//  }
 #[inline]
 fn cal0(l: f32, r: f32) -> f32 {
     match l - r {
@@ -42,7 +48,7 @@ fn cal(l: (f32, i16), r: (f32, i16)) -> (f32, i16) {
         -1 => ( cal2(x.0, x.1), x.2),
          0 => ( cal1(x.0, x.1), x.2),
          1 => ( cal0(x.0, x.1), x.2),
-         2 => (calm1(x.0, x.1), x.2),
+        // 2 => (calm1(x.0, x.1), x.2),
          _ => { if x.0 > x.1 { l } else { r } }
     };
     fix(o)
