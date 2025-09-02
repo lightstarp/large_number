@@ -1,30 +1,30 @@
-use super::{FBig, Sign, fix::fix};
+use super::{HLarge, Sign, fix::fix};
 
-pub trait Value { fn f(self) -> Option<FBig>; }
+pub trait Value { fn f(self) -> Option<HLarge>; }
 impl Value for f32 {
-    fn f(self) -> Option<FBig> {
+    fn f(self) -> Option<HLarge> {
         let x = fix((self, 0));
-        Some(FBig { entry0: x.0, entry1: x.1, s: Sign::Plus })
+        Some(HLarge { entry0: x.0, entry1: x.1, s: Sign::Plus })
     }
 }
 impl Value for i32 {
-    fn f(self) -> Option<FBig> {
+    fn f(self) -> Option<HLarge> {
         let x = fix((self as f32, 0));
-        Some(FBig { entry0: x.0, entry1: x.1, s: Sign::Plus })
+        Some(HLarge { entry0: x.0, entry1: x.1, s: Sign::Plus })
     }
 }
 impl Value for &str {
-    fn f(self) -> Option<FBig> {
+    fn f(self) -> Option<HLarge> {
         lexer(self)
     }
 }
 impl Value for String {
-    fn f(self) -> Option<FBig> {
+    fn f(self) -> Option<HLarge> {
         lexer(&self)
     }
 }
 
-fn lexer(s: &str) -> Option<FBig> {
+fn lexer(s: &str) -> Option<HLarge> {
     // 先頭に「-」がついてた場合、符号を負にして以降の文字を取得。無ければそのまま取得。
     let (s, sign) = match s.chars().next() {
         Some('-') => (s.get(1..).unwrap_or(""), Sign::Minus),
@@ -47,15 +47,15 @@ fn lexer(s: &str) -> Option<FBig> {
 
     // 正規化する。
     let (entry0, entry1) = fix((entry0, entry1 * count_e as i16));
-    Some(FBig { entry0, entry1, s: sign })
+    Some(HLarge { entry0, entry1, s: sign })
 }
 
-impl FBig {
-    pub fn new<V: Value>( v: V ) -> FBig {
+impl HLarge {
+    pub fn new<V: Value>( v: V ) -> HLarge {
         v.f().unwrap()
     }
 
-    pub fn new_checked<V: Value>( v: V ) -> Option<FBig> {
+    pub fn new_checked<V: Value>( v: V ) -> Option<HLarge> {
         v.f()
     }
 }

@@ -1,6 +1,6 @@
-use super::FBig;
+use super::HLarge;
 
-impl std::fmt::Display for FBig {
+impl std::fmt::Display for HLarge {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut s = String::new();
         match self.entry1 {

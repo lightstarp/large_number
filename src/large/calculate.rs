@@ -1,4 +1,4 @@
-use super::{FBig, Sign, fix::fix};
+use super::{HLarge, Sign, fix::fix};
 
 #[inline]
 fn calm1(l: f32, r: f32) -> f32 {
@@ -48,32 +48,32 @@ fn cal(l: (f32, i16), r: (f32, i16)) -> (f32, i16) {
     fix(o)
 }
 
-impl std::ops::Add for FBig {
+impl std::ops::Add for HLarge {
     type Output = Self;
 
     fn add(self, rhs: Self) -> Self {
         let x = cal((self.entry0, self.entry1), (rhs.entry0, rhs.entry1));
-        FBig { entry0: x.0, entry1: x.1, s: Sign::Plus }
+        HLarge { entry0: x.0, entry1: x.1, s: Sign::Plus }
     }
 }
 
-impl std::ops::Mul for FBig {
+impl std::ops::Mul for HLarge {
     type Output = Self;
 
     fn mul(self, rhs: Self) -> Self {
-        if self == FBig::new(0) { return FBig::new(0) }
-        if rhs  == FBig::new(0) { return FBig::new(0) }
+        if self == HLarge::new(0) { return HLarge::new(0) }
+        if rhs  == HLarge::new(0) { return HLarge::new(0) }
         let x = cal((self.entry0, self.entry1 - 1), (rhs.entry0, rhs.entry1 - 1));
-        FBig { entry0: x.0, entry1: x.1 + 1, s: Sign::Plus }
+        HLarge { entry0: x.0, entry1: x.1 + 1, s: Sign::Plus }
     }
 }
 
-impl FBig {
+impl HLarge {
     pub fn pow(self, rhs: Self) -> Self {
-        if self == FBig::new(1) { return FBig::new(1) }
-        if self == FBig::new(0) { return FBig::new(0) }
-        if rhs  == FBig::new(0) { return FBig::new(1) }
+        if self == HLarge::new(1) { return HLarge::new(1) }
+        if self == HLarge::new(0) { return HLarge::new(0) }
+        if rhs  == HLarge::new(0) { return HLarge::new(1) }
         let x = cal((self.entry0, self.entry1 - 2), (rhs.entry0, rhs.entry1 - 1));
-        FBig { entry0: x.0, entry1: x.1 + 2, s: Sign::Plus }
+        HLarge { entry0: x.0, entry1: x.1 + 2, s: Sign::Plus }
     }
 }
