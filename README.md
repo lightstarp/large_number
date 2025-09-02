@@ -39,4 +39,4 @@ fn foo() {
 このライブラリは未完成のため大幅な互換性のない変更される場合があります。
 
 ## Licence
-[MIT](https://github.com/lightstarp/large_number/blob/master/LICENSE)
+[MIT](https://github.com/lightstarp/large_number/blob/master/LICENSE.md)
