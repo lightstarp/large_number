@@ -12,7 +12,14 @@ impl std::fmt::Display for Lnum {
                 }
                 s.push_str(&format!("{:.2}", self.entry0));
             }
-            _    => { s = format!("E{:08.1}#{}", self.entry0, self.entry1) }
+            _    => {
+                let x = if self.entry0 > 1000.0 {
+                    (self.entry0.log10(), self.entry1 + 1)
+                } else {
+                    (self.entry0, self.entry1)
+                };
+                s = format!("E{:03.1}#{}", x.0, x.1)
+            }
         };
 
         
