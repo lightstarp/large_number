@@ -57,48 +57,66 @@ impl Lnum {
     /// ```
     /// use large_number::Lnum;
     /// 
-    /// fn example() {
+    /// // 関数の引数に値を入れることでLnumを作成することができます。
+    /// fn example1() {
     ///     let x = Lnum::new(1729);
     ///     let y = Lnum::new(1111);
     ///     
-    ///     println!("{}", x); // 1729.00
-    ///     println!("{}", y); // 1111.00
-    ///     println!("{}", x + y); // 2840.00
+    ///     println!("{}", x);      // 1729.00
+    ///     println!("{}", y);      // 1111.00
+    ///     println!("{}", x + y);  // 2840.00
     /// }
-    /// ```
     /// 
-    /// 関数の引数は[`i32`],[`f32`],[`str`],[`String`]に対応しており、
-    /// それぞれ同じ結果が得られます。
-    /// 
-    /// ```
-    /// use large_number::Lnum;
-    /// 
-    /// fn example() {
-    ///     let a = Lnum::new(42);
-    ///     let b = Lnum::new(42.0);
-    ///     let c = Lnum::new("42");
-    ///     let d = Lnum::new("42".to_string());
+    /// // 関数の引数はi32, f32, &str, Stringなどに対応しています。
+    /// fn example2() {
+    ///     let a = Lnum::new(42);                  //i32
+    ///     let b = Lnum::new(42.0);                //f32
+    ///     let c = Lnum::new("42");                //&str
+    ///     let d = Lnum::new("42".to_string());    //String
     ///     
     ///     println!("{}", a == b && b == c && c == d); // true
     /// }
+    /// 
+    /// // &str, Stringは大きい数値を記述するときに有効的に使えます。
+    /// fn example3() {
+    ///     println!("{}", Lnum::new("12345.6"));   // 12345.60
+    ///     println!("{}", Lnum::new("E8"));        // E8.00
+    ///     println!("{}", Lnum::new("EE3"));       // E1000.00
+    ///     println!("{}", Lnum::new("E10#100"));   // E010.0#100
+    /// }
     /// ```
     /// 
-    /// [`str`],[`String`]は大きい数値を記述するときに有効的に使えます。
-    /// 
+    /// # Panic
+    /// 不正な文字列を引数に入れるとPanicを引き起こします
     /// ```
     /// use large_number::Lnum;
     /// 
     /// fn example() {
-    ///     println!("{}", Lnum::new("12345.6")); // 12345.60
-    ///     println!("{}", Lnum::new("E8")); // E8.00
-    ///     println!("{}", Lnum::new("EE3")); // E1000.00
-    ///     println!("{}", Lnum::new("E10#100")); // E10.00#100
+    ///     println!("{}", Lnum::new("1.1"));           // 1.10
+    ///     println!("{}", Lnum::new("E8"));            // E8.00
+    /// 
+    ///     // println!("{}", Lnum::new("1.1.1"));      // Panic!
+    ///     // println!("{}", Lnum::new("100#"));       // Panic!
+    ///     // println!("{}", Lnum::new("ABCDEFG"));    // Panic!
     /// }
     /// ```
     pub fn new<V: Value>( v: V ) -> Lnum {
         v.f().unwrap()
     }
 
+    /// 正常な値なのかを、Option型で返します
+    /// ```
+    /// use large_number::Lnum;
+    /// 
+    /// fn example() {
+    ///     println!("{}", Lnum::new("1.1"));        // Some(1.10)
+    ///     println!("{}", Lnum::new("E8"));         // Some(E8.00)
+    /// 
+    ///     println!("{}", Lnum::new("1.1.1"));      // None
+    ///     println!("{}", Lnum::new("100#"));       // None
+    ///     println!("{}", Lnum::new("ABCDEFG"));    // None
+    /// }
+    /// ```
     pub fn new_checked<V: Value>( v: V ) -> Option<Lnum> {
         v.f()
     }
