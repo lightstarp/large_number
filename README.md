@@ -10,7 +10,7 @@ Sbiis Saibianが考案した巨大数を表記する方法であるハイパーE
 - x86-64
 
 ## Reference
-[wikipediaのハイパーE表記に関する記述](https://ja.wikipedia.org/wiki/%E3%83%8F%E3%82%A4%E3%83%91%E3%83%BCE%E8%A1%A8%E8%A8%98)
+wikipediaで記載されている[ハイパーE表記](https://ja.wikipedia.org/wiki/%E3%83%8F%E3%82%A4%E3%83%91%E3%83%BCE%E8%A1%A8%E8%A8%98)
 
 ## Usage
 足し算をするサンプルコードです。
@@ -36,7 +36,7 @@ fn foo() {
 | No  | division    | a / b     |
 
 ## Warning
-このライブラリは現在未完成のため互換性のない変更される場合があります。（というか、変更します。）
+このライブラリは現在未完成のため互換性のない変更される可能性があります。（というか、変更します）
 
 ## Licence
 [MIT](https://github.com/lightstarp/large_number/blob/master/LICENSE.md)
