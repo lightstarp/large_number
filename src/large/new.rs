@@ -51,6 +51,50 @@ fn lexer(s: &str) -> Option<Lnum> {
 }
 
 impl Lnum {
+    /// Lnum形式の数値を新しく作成します
+    /// 
+    /// # Example
+    /// ```
+    /// use large_number::Lnum;
+    /// 
+    /// fn example() {
+    ///     let x = Lnum::new(1729);
+    ///     let y = Lnum::new(1111);
+    ///     
+    ///     println!("{}", x); // 1729.00
+    ///     println!("{}", y); // 1111.00
+    ///     println!("{}", x + y); // 2840.00
+    /// }
+    /// ```
+    /// 
+    /// 関数の引数は[`i32`],[`f32`],[`str`],[`String`]に対応しており、
+    /// それぞれ同じ結果が得られます。
+    /// 
+    /// ```
+    /// use large_number::Lnum;
+    /// 
+    /// fn example() {
+    ///     let a = Lnum::new(42);
+    ///     let b = Lnum::new(42.0);
+    ///     let c = Lnum::new("42");
+    ///     let d = Lnum::new("42".to_string());
+    ///     
+    ///     println!("{}", a == b && b == c && c == d); // true
+    /// }
+    /// ```
+    /// 
+    /// [`str`],[`String`]は大きい数値を記述するときに有効的に使えます。
+    /// 
+    /// ```
+    /// use large_number::Lnum;
+    /// 
+    /// fn example() {
+    ///     println!("{}", Lnum::new("12345.6")); // 12345.60
+    ///     println!("{}", Lnum::new("E8")); // E8.00
+    ///     println!("{}", Lnum::new("EE3")); // E1000.00
+    ///     println!("{}", Lnum::new("E10#100")); // E10.00#100
+    /// }
+    /// ```
     pub fn new<V: Value>( v: V ) -> Lnum {
         v.f().unwrap()
     }
