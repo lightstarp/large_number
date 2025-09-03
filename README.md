@@ -27,8 +27,8 @@ fn foo() {
 
 ## Features
 現在対応している演算や今後実装予定の演算
-| 対応済みかどうか | 名前 | プログラム |
-| :---- | :---------- | :-------- |
+| 対応済みかどうか | 名前 | コード |
+| :-- | :---------- | :-------- |
 | Yes | add         | a + b     |
 | Yes | multiple    | a * b     |
 | Yes | power       | a.pow(b)  |
@@ -36,7 +36,7 @@ fn foo() {
 | No  | division    | a / b     |
 
 ## Warning
-このライブラリは未完成のため大幅な互換性のない変更される場合があります。
+このライブラリは現在未完成のため互換性のない変更される場合があります。（というか、変更します。）
 
 ## Licence
 [MIT](https://github.com/lightstarp/large_number/blob/master/LICENSE.md)
