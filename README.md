@@ -15,13 +15,13 @@ wikipediaで記載されている[ハイパーE表記](https://ja.wikipedia.org/
 ## Usage
 演算をするサンプルコードです。
 ```rust
-use Lnum;
+use large_number::Lnum;
 
 fn add() {
     let x = Lnum::new(1729);
     let y = Lnum::new(1111);
 
-    println!("{}", x + y) // 2840
+    println!("{}", x + y) // 2840.00
 }
 
 fn multiple() {
