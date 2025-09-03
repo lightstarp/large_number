@@ -18,7 +18,7 @@ impl std::fmt::Display for Lnum {
                 } else {
                     (self.entry0, self.entry1)
                 };
-                s = format!("E{:03.1}#{}", x.0, x.1)
+                s = format!("E{:05.1}#{}", x.0, x.1)
             }
         };
 
