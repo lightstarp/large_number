@@ -4,6 +4,8 @@ use super::{
     calculate::up,
 };
 
+const CORRECTION: f64 = 0.000000001;
+
 // struct LnumFmt<'a>{
 //     notation: Notation,
 //     precision: usize,
@@ -27,10 +29,10 @@ impl Lnum {
         let result = match value.tetra {
             0 => {
                 if self.unit < 100.0 {
-                    let unit = value.unit + 0.000001;
+                    let unit = value.unit + CORRECTION;
                     format!("{unit:.*}", precision)
                 } else {
-                    let unit = (value.unit + 0.000001).floor();
+                    let unit = (value.unit + CORRECTION).floor();
                     format!("{unit:.0}")
                 }
             }
@@ -39,7 +41,7 @@ impl Lnum {
                 for _ in 1..value.tetra {
                     str.push_str("1.00e");
                 }
-                let e1 = (value.unit + 0.000001).floor();
+                let e1 = (value.unit + CORRECTION).floor();
                 let e0 = 10_f64.powf(value.unit - e1);
                 format!("{str}{e0:.2}e{e1:.0}")
             }
@@ -72,7 +74,7 @@ impl Lnum {
     pub fn exponential(&self, precision: usize) -> String {
         if !self.unit.is_normal() {
             if self.unit == 0.0 {
-                return format!("{:.*}", precision, 0)
+                return format!("{:.*}", precision,  CORRECTION)
             } else if self.unit == f64::INFINITY {
                 return "inf".to_string()
             } else if self.unit == f64::NEG_INFINITY {
