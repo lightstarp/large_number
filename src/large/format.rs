@@ -100,13 +100,15 @@ impl Lnum {
             } else {
                 format!("{}{:.0}", s, value.unit)
             }
-        } else {
+        } else if value.tetra < 1000 {
             let (unit, tetra) = if self.unit >= 10.0 {
                 (self.unit.log10(), self.tetra + 1)
             } else {
                 (self.unit, self.tetra)
             };
             format!("E{:.4}#{:.0}", unit, tetra)
+        } else {
+            format!("E#{:.0}", self.tetra)
         }
     }
 }
