@@ -1,53 +1,58 @@
-use super::{Lnum, Sign, fix::fix};
+use super::Lnum;
 
-pub trait Value { fn f(self) -> Option<Lnum>; }
-impl Value for f32 {
-    fn f(self) -> Option<Lnum> {
-        let x = fix((self, 0));
-        Some(Lnum { entry0: x.0, entry1: x.1, sign: Sign::Plus })
+fn fix(value: f64) -> Lnum {
+    match value {
+        0.0.. => Lnum { sign:  1.0, tetra: 0, unit: value    },
+        ..0.0 => Lnum { sign: -1.0, tetra: 0, unit: value    },
+        _     => Lnum { sign:  1.0, tetra: 0, unit: f64::NAN }
+    } 
+}
+
+pub trait Value { fn f(self) -> Result<Lnum, ()>; }
+impl Value for f64 {
+    fn f(self) -> Result<Lnum, ()> {
+        Ok(fix(self))
     }
 }
-impl Value for i32 {
-    fn f(self) -> Option<Lnum> {
-        let x = fix((self as f32, 0));
-        Some(Lnum { entry0: x.0, entry1: x.1, sign: Sign::Plus })
+impl Value for i64 {
+    fn f(self) -> Result<Lnum, ()> {
+        Ok(fix(self as f64))
     }
 }
 impl Value for &str {
-    fn f(self) -> Option<Lnum> {
+    fn f(self) -> Result<Lnum, ()> {
         lexer(self)
     }
 }
 impl Value for String {
-    fn f(self) -> Option<Lnum> {
+    fn f(self) -> Result<Lnum, ()> {
         lexer(&self)
     }
 }
 
-fn lexer(s: &str) -> Option<Lnum> {
+fn lexer(s: &str) -> Result<Lnum, ()> {
     // 先頭に「-」がついてた場合、符号を負にして以降の文字を取得。無ければそのまま取得。
     let (s, sign) = match s.chars().next() {
-        Some('-') => (s.get(1..).unwrap_or(""), Sign::Minus),
-        _         => (s, Sign::Plus),
+        Some('-') => (s.get(1..).unwrap_or(""), -1.0),
+        _         => (s, 1.0),
     };
 
     // 文中に「#」がついてた場合、左右に分割する。無ければデフォルト値。
-    let (entry0_str, entry1_str) = s.split_once('#').unwrap_or((s, "1"));
+    let (unit_str, tetra_str) = s.split_once('#').unwrap_or((s, "0"));
 
     // 先頭の「E」の数を計算。
     let mut count_e = 0;
-    for (c, i) in entry0_str.chars().zip(0..) { if c != 'E' { count_e = i; break } };
+    for (c, i) in unit_str.chars().zip(0..) { if c != 'E' { count_e = i; break } };
 
     // 「E」より後の文字列を取得。
-    let (_, entry0_str) = entry0_str.split_at(count_e);
+    let (_, unit_str) = unit_str.split_at(count_e);
 
     // カーディナルとハイペリオンを数字に変換する。失敗した場合Noneを返す。
-    let entry1 = match entry1_str.parse::<i16>() { Ok(t) => t, Err(_) => return None };
-    let entry0 = match entry0_str.parse::<f32>() { Ok(t) => t, Err(_) => return None };
+    let tetra = match tetra_str.parse::<u32>() { Ok(t) => t, Err(_) => return Err(()) };
+    let unit  = match  unit_str.parse::<f64>() { Ok(t) => t, Err(_) => return Err(()) };
 
     // 正規化する。
-    let (entry0, entry1) = fix((entry0, entry1 * count_e as i16));
-    Some(Lnum { entry0, entry1, sign })
+    Ok(Lnum { sign, tetra: tetra + count_e as u32, unit })
 }
 
 impl Lnum {
@@ -100,24 +105,24 @@ impl Lnum {
     ///     // println!("{}", Lnum::new("ABCDEFG"));    // Panic!
     /// }
     /// ```
-    pub fn new<V: Value>( v: V ) -> Lnum {
-        v.f().unwrap()
+    pub fn new<T: Value>(value: T) -> Lnum {
+        value.f().unwrap()
     }
 
-    /// 正常な値なのかを、Option型で返します
+    /// new()と似ていますが、正常な引数ではない場合、Errを返します
     /// ```
     /// use large_number::Lnum;
     /// 
     /// fn example() {
-    ///     println!("{}", Lnum::new("1.1"));        // Some(1.10)
-    ///     println!("{}", Lnum::new("E8"));         // Some(E8.00)
+    ///     println!("{}", Lnum::new("1.1"));        // Ok(1.10)
+    ///     println!("{}", Lnum::new("E8"));         // Ok(E8.00)
     /// 
-    ///     println!("{}", Lnum::new("1.1.1"));      // None
-    ///     println!("{}", Lnum::new("100#"));       // None
-    ///     println!("{}", Lnum::new("ABCDEFG"));    // None
+    ///     println!("{}", Lnum::new("1.1.1"));      // Err(())
+    ///     println!("{}", Lnum::new("100#"));       // Err(())
+    ///     println!("{}", Lnum::new("ABCDEFG"));    // Err(())
     /// }
     /// ```
-    pub fn new_checked<V: Value>( v: V ) -> Option<Lnum> {
-        v.f()
+    pub fn new_checked<T: Value>(value: T) -> Result<Lnum, ()> {
+        value.f()
     }
 }

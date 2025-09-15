@@ -4,3 +4,9 @@ version = "0.0.1"
 edition = "2024"
 
 [dependencies]
+
+[profile.release]
+opt-level = 3         # 速度の最適化
+lto = "fat"           # リンク時の最適化を有効化
+codegen-units = 1     # コード生成ユニットを減らす
+panic = "abort"       # panic時に'abort'を使用
