@@ -98,6 +98,12 @@ impl std::ops::Add for Lnum {
     }
 }
 
+impl std::ops::AddAssign for Lnum {
+    fn add_assign(&mut self, rhs: Self) {
+        *self = *self + rhs;
+    }
+}
+
 impl std::ops::Sub for Lnum {
     type Output = Lnum;
     fn sub(self, rhs: Lnum) -> Lnum {
@@ -119,6 +125,12 @@ impl std::ops::Sub for Lnum {
             Some(Ordering::Less   ) => Lnum { sign: -1.0, tetra, unit: -unit     },
             None                    => Lnum { sign:  1.0, tetra, unit:  f64::NAN },
         }
+    }
+}
+
+impl std::ops::SubAssign for Lnum {
+    fn sub_assign(&mut self, rhs: Self) {
+        *self = *self - rhs;
     }
 }
 
@@ -147,6 +159,12 @@ impl std::ops::Mul for Lnum {
     }
 }
 
+impl std::ops::MulAssign for Lnum {
+    fn mul_assign(&mut self, rhs: Self) {
+        *self = *self * rhs;
+    }
+}
+
 impl std::ops::Div for Lnum {
     type Output = Lnum;
     fn div(self, rhs: Lnum) -> Lnum {
@@ -169,6 +187,12 @@ impl std::ops::Div for Lnum {
         } else {
             Lnum { sign, tetra, unit }
         }
+    }
+}
+
+impl std::ops::DivAssign for Lnum {
+    fn div_assign(&mut self, rhs: Self) {
+        *self = *self / rhs;
     }
 }
 
